@@ -1,10 +1,12 @@
-
+# Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow
+# https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-custom-labels-to-route-jobs
+#https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-labels-and-groups-to-route-jobs
 
 name: Provision Roboshop Infrastructure
-on: [workflow_dispatch] #workflow will only run on manual trigger. disabled push runs
+on: [workflow_dispatch] #workflow will only run on manual trigger. disabling push runs
 jobs:
   DEV-PLAN:
-    runs-on: self-hosted
+    runs-on: self-hosted #using label to route job
     steps:
       - uses: actions/checkout@v4 #used to checkout the code
       - name: Terraform Init
@@ -13,7 +15,7 @@ jobs:
         run: terraform plan -var-file=env-dev/main.tfvars
 
   DEV-APPLY:
-    runs-on: self-hosted
+    runs-on: self-hosted #using label to route job
     environment: dev
     needs: DEV-PLAN
     steps:
@@ -36,7 +38,7 @@ jobs:
     steps:
       - run: echo Just a Dummy Job
   PROD:
-    runs-on: self-hosted
+    runs-on: self-hosted #using label to route job
     environment: prod
     needs: UAT
     steps:

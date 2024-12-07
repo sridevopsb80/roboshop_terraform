@@ -5,19 +5,19 @@
 name: Provision Roboshop Infrastructure
 on: [workflow_dispatch] #workflow will only run on manual trigger. disabling push runs
 jobs:
-  DEV-PLAN:
-    runs-on: self-hosted #using label to route job
-    steps:
-      - uses: actions/checkout@v4 #used to checkout the code
-      - name: Terraform Init
-        run: terraform init -backend-config=env-dev/state.tfvars
-      - name: Terraform Plan
-        run: terraform plan -var-file=env-dev/main.tfvars
+  #DEV-PLAN:
+   # runs-on: self-hosted #using label to route job
+    #steps:
+     # - uses: actions/checkout@v4 #used to checkout the code
+      #- name: Terraform Init
+       # run: terraform init -backend-config=env-dev/state.tfvars
+      #- name: Terraform Plan
+       # run: terraform plan -var-file=env-dev/main.tfvars
 
   DEV-APPLY:
     runs-on: self-hosted #using label to route job
     environment: dev
-    needs: DEV-PLAN
+    #needs: DEV-PLAN
     steps:
       - uses: actions/checkout@v4 #used to checkout the code
       - name: Terraform Init

@@ -1,7 +1,12 @@
 # roboshop-terraform
 
+Server connection
+![img.png](img.png)
+
+Subnet layout
 ![subnet layout.PNG](..%2F..%2F..%2FPictures%2Fsubnet%20layout.PNG)
 
+Application layout
 ![application layout.PNG](..%2F..%2F..%2FPictures%2Fapplication%20layout.PNG)
 
 

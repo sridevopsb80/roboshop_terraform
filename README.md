@@ -4,11 +4,10 @@ Server connection
 ![img.png](img.png)
 
 Subnet layout
-![subnet layout.PNG](..%2F..%2F..%2FPictures%2Fsubnet%20layout.PNG)
+![img_1.png](img_1.png)
 
 Application layout
-![application layout.PNG](..%2F..%2F..%2FPictures%2Fapplication%20layout.PNG)
-
+![img_2.png](img_2.png)
 
 ## Terraform Documentation:
 

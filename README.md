@@ -10,6 +10,8 @@ Terraform Documentation to create Subnets - https://registry.terraform.io/provid
 
 Terraform Documentation to create Route tables - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
 
+Terraform Documentation to create route table association - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+
 #### Github Actions:
 
 Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow

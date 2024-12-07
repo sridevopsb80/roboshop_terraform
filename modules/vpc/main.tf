@@ -52,6 +52,13 @@ resource "aws_subnet" "db" {
 resource "aws_route_table" "public" {
   count  = length(var.public_subnets)
   vpc_id = aws_vpc.main.id
+
+  #routing internet traffic via internet gateway. re: public subnets are being used as bastion hosts and is receiving incoming traffic from internet
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
+
   tags = {
     Name = "public-rt-${split("-", var.availability_zones[count.index])[2]}"
   }
@@ -76,5 +83,35 @@ resource "aws_route_table" "db" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name = "db-rt-${split("-", var.availability_zones[count.index])[2]}"
+  }
+}
+
+## Route table association
+resource "aws_route_table_association" "public" {
+  count          = length(var.public_subnets)
+  subnet_id      = aws_subnet.public.*.id[count.index]
+  route_table_id = aws_route_table.public.*.id[count.index]
+}
+resource "aws_route_table_association" "web" {
+  count          = length(var.web_subnets)
+  subnet_id      = aws_subnet.web.*.id[count.index]
+  route_table_id = aws_route_table.web.*.id[count.index]
+}
+resource "aws_route_table_association" "app" {
+  count          = length(var.app_subnets)
+  subnet_id      = aws_subnet.app.*.id[count.index]
+  route_table_id = aws_route_table.app.*.id[count.index]
+}
+resource "aws_route_table_association" "db" {
+  count          = length(var.db_subnets)
+  subnet_id      = aws_subnet.db.*.id[count.index]
+  route_table_id = aws_route_table.db.*.id[count.index]
+}
+
+## Internet gateway
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.env}-igw"
   }
 }

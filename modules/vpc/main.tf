@@ -53,7 +53,7 @@ resource "aws_route_table" "public" {
   count  = length(var.public_subnets)
   vpc_id = aws_vpc.main.id
 
-  #routing internet traffic via internet gateway. re: public subnets are being used as bastion hosts and is receiving incoming traffic from internet
+  #routing internet traffic via internet gateway. re: public subnets are being assigned to load balancers and will be receiving incoming traffic from internet
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id
@@ -67,6 +67,13 @@ resource "aws_route_table" "public" {
 resource "aws_route_table" "web" {
   count  = length(var.web_subnets)
   vpc_id = aws_vpc.main.id
+
+  #defining routing for nat gateway
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+  }
+
   tags = {
     Name = "web-rt-${split("-", var.availability_zones[count.index])[2]}"
   }
@@ -74,6 +81,13 @@ resource "aws_route_table" "web" {
 resource "aws_route_table" "app" {
   count  = length(var.app_subnets)
   vpc_id = aws_vpc.main.id
+
+  #defining routing for nat gateway
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+  }
+
   tags = {
     Name = "app-rt-${split("-", var.availability_zones[count.index])[2]}"
   }
@@ -81,6 +95,13 @@ resource "aws_route_table" "app" {
 resource "aws_route_table" "db" {
   count  = length(var.db_subnets)
   vpc_id = aws_vpc.main.id
+
+  #defining routing for nat gateway
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+  }
+
   tags = {
     Name = "db-rt-${split("-", var.availability_zones[count.index])[2]}"
   }
@@ -113,5 +134,19 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name = "${var.env}-igw"
+  }
+}
+
+## NAT Gateway
+resource "aws_eip" "ngw-ip" {
+  count  = length(var.availability_zones)
+  domain = "vpc"
+}
+resource "aws_nat_gateway" "main" {
+  count         = length(var.availability_zones)
+  allocation_id = aws_eip.ngw-ip.*.id[count.index]
+  subnet_id     = aws_subnet.public.*.id[count.index]
+  tags = {
+    Name = "nat-gw-${split("-", var.availability_zones[count.index])[2]}"
   }
 }

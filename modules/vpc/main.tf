@@ -1,5 +1,6 @@
 #refer readme file for reference documentation
 
+#Defining VPC
 resource "aws_vpc" "main" {
   cidr_block = var.cidr #obtaining cidr info from corresponding env
   tags = {
@@ -7,13 +8,14 @@ resource "aws_vpc" "main" {
   }
 }
 
+#Defining Subnets
 resource "aws_subnet" "public" {
   count             = length(var.public_subnets)
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = "public-subnet"
+    Name = "public-subnet-${split("-", var.availability_zones[count.index])[2]}"
   }
 }
 
@@ -23,7 +25,7 @@ resource "aws_subnet" "web" {
   cidr_block        = var.web_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = "web-subnet"
+    Name = "web-subnet-${split("-", var.availability_zones[count.index])[2]}"
   }
 }
 resource "aws_subnet" "app" {
@@ -32,7 +34,7 @@ resource "aws_subnet" "app" {
   cidr_block        = var.app_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = "app-subnet"
+    Name = "app-subnet-${split("-", var.availability_zones[count.index])[2]}"
   }
 }
 resource "aws_subnet" "db" {
@@ -41,6 +43,7 @@ resource "aws_subnet" "db" {
   cidr_block        = var.db_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = "db-subnet"
+    Name = "db-subnet-${split("-", var.availability_zones[count.index])[2]}"
   }
 }
+

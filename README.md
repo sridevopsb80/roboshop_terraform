@@ -1,5 +1,10 @@
 # roboshop-terraform
 
+![subnet layout.PNG](..%2F..%2F..%2FPictures%2Fsubnet%20layout.PNG)
+
+![application layout.PNG](..%2F..%2F..%2FPictures%2Fapplication%20layout.PNG)
+
+
 ## Terraform Documentation:
 
 #### AWS related:

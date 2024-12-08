@@ -71,7 +71,7 @@ resource "aws_route_table" "web" {
   #defining routing for nat gateway
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index] #using splat expression
   }
 
   tags = {
@@ -85,7 +85,7 @@ resource "aws_route_table" "app" {
   #defining routing for nat gateway
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index] #using splat expression
   }
 
   tags = {
@@ -99,7 +99,7 @@ resource "aws_route_table" "db" {
   #defining routing for nat gateway
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.*.id[count.index]
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index] #using splat expression
   }
 
   tags = {
@@ -110,23 +110,23 @@ resource "aws_route_table" "db" {
 ## Route table association
 resource "aws_route_table_association" "public" {
   count          = length(var.public_subnets)
-  subnet_id      = aws_subnet.public.*.id[count.index]
-  route_table_id = aws_route_table.public.*.id[count.index]
+  subnet_id      = aws_subnet.public.*.id[count.index] #using splat expression
+  route_table_id = aws_route_table.public.*.id[count.index] #using splat expression
 }
 resource "aws_route_table_association" "web" {
   count          = length(var.web_subnets)
-  subnet_id      = aws_subnet.web.*.id[count.index]
-  route_table_id = aws_route_table.web.*.id[count.index]
+  subnet_id      = aws_subnet.web.*.id[count.index] #using splat expression
+  route_table_id = aws_route_table.web.*.id[count.index] #using splat expression
 }
 resource "aws_route_table_association" "app" {
   count          = length(var.app_subnets)
-  subnet_id      = aws_subnet.app.*.id[count.index]
-  route_table_id = aws_route_table.app.*.id[count.index]
+  subnet_id      = aws_subnet.app.*.id[count.index] #using splat expression
+  route_table_id = aws_route_table.app.*.id[count.index] #using splat expression
 }
 resource "aws_route_table_association" "db" {
   count          = length(var.db_subnets)
-  subnet_id      = aws_subnet.db.*.id[count.index]
-  route_table_id = aws_route_table.db.*.id[count.index]
+  subnet_id      = aws_subnet.db.*.id[count.index] #using splat expression
+  route_table_id = aws_route_table.db.*.id[count.index] #using splat expression
 }
 
 ## Internet gateway
@@ -144,8 +144,8 @@ resource "aws_eip" "ngw-ip" {
 }
 resource "aws_nat_gateway" "main" {
   count         = length(var.availability_zones)
-  allocation_id = aws_eip.ngw-ip.*.id[count.index]
-  subnet_id     = aws_subnet.public.*.id[count.index]
+  allocation_id = aws_eip.ngw-ip.*.id[count.index] #using splat expression
+  subnet_id     = aws_subnet.public.*.id[count.index] #using splat expression
   tags = {
     Name = "nat-gw-${split("-", var.availability_zones[count.index])[2]}"
   }

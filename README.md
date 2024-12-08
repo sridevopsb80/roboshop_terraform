@@ -43,5 +43,13 @@ split("-", "us-east-1a")[2] - provides "1a"
 var.availability_zones[count.index] - us-east-1a, us-east-1b
 {split("-", var.availability_zones[count.index])[2]} - 1a, 1b
 
+#### Splat Expressions
+
+A splat expression provides a more concise way to express a common operation that could otherwise be performed with a for expression.
+
+Hashicorp documentation - https://developer.hashicorp.com/terraform/language/expressions/splat
+
+Medium article with examples - https://medium.com/@diliprao/understanding-terraform-splat-expressions-a-guide-with-easy-to-follow-examples-86695e71cd90
+
 
 

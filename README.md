@@ -22,6 +22,10 @@ Terraform Documentation to create Route tables - https://registry.terraform.io/p
 
 Terraform Documentation to create route table association - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 
+Terraform documentation to create VPC peering connection - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_peering_connection
+
+Terraform documentation to create a route - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route
+
 #### Github Actions:
 
 Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow

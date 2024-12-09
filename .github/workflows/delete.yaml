@@ -2,7 +2,7 @@
 # https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-custom-labels-to-route-jobs
 #https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-labels-and-groups-to-route-jobs
 
-name: Provision Roboshop Infrastructure
+name: Delete Roboshop Infrastructure
 on: [workflow_dispatch] #workflow will only run on manual trigger. disabling push runs
 jobs:
   #DEV-PLAN:
@@ -14,7 +14,7 @@ jobs:
       #- name: Terraform Plan
        # run: terraform plan -var-file=env-dev/main.tfvars
 
-  DEV-APPLY:
+  DEV:
     runs-on: self-hosted #using label to route job
     environment: dev
     #needs: DEV-PLAN
@@ -23,25 +23,16 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=env-dev/state.tfvars
       - name: Terraform Apply
-        run: terraform apply -var-file=env-dev/main.tfvars -auto-approve #variable input taken from env-dev/main.tfvars
+        run: terraform destroy -var-file=env-dev/main.tfvars -auto-approve #variable input taken from env-dev/main.tfvars
 
-  QA:
-    runs-on: ubuntu-latest
-    environment: qa
-    needs: DEV-APPLY
-    steps:
-      - run: echo Just a Dummy Job
-  UAT:
-    runs-on: ubuntu-latest
-    environment: uat
-    needs: QA
-    steps:
-      - run: echo Just a Dummy Job
-  PROD:
-    runs-on: self-hosted #using label to route job
-    environment: prod
-    needs: UAT
-    steps:
-      - uses: actions/checkout@v4 #used to checkout the code
-      - name: Terraform Init
-        run: terraform init -backend-config=env-prod/state.tfvars
+
+  #PROD:
+  #  runs-on: self-hosted #using label to route job
+  #  environment: prod
+  #  needs: DEV
+  #  steps:
+  #    - uses: actions/checkout@v4 #used to checkout the code
+  #    - name: Terraform Init
+  #      run: terraform init -backend-config=env-prod/state.tfvars
+  #    - name: Terraform Apply
+  #      run: terraform destroy -var-file=env-prod/main.tfvars -auto-approve #variable input taken from prod-dev/main.tfvars

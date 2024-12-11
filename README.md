@@ -26,6 +26,8 @@ Terraform documentation to create VPC peering connection - https://registry.terr
 
 Terraform documentation to create a route - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route
 
+Terraform documentation to create a launch template for EC2 auto-scaling group - https://registry.tf-registry-prod-use1.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
+
 
 
 #### Github Actions:

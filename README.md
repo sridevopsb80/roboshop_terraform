@@ -26,6 +26,8 @@ Terraform documentation to create VPC peering connection - https://registry.terr
 
 Terraform documentation to create a route - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route
 
+
+
 #### Github Actions:
 
 Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow
@@ -55,6 +57,12 @@ A splat expression provides a more concise way to express a common operation tha
 Hashicorp documentation - https://developer.hashicorp.com/terraform/language/expressions/splat
 
 Medium article with examples - https://medium.com/@diliprao/understanding-terraform-splat-expressions-a-guide-with-easy-to-follow-examples-86695e71cd90
+
+#### Tomap function 
+
+Terraform documentation for tomap function - https://developer.hashicorp.com/terraform/language/functions/tomap. 
+
+Tomap function is used to convert arguments to map value.
 
 
 

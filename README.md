@@ -28,7 +28,7 @@ Terraform documentation to create a route - https://registry.terraform.io/provid
 
 Terraform documentation to create a launch template for EC2 auto-scaling group - https://registry.tf-registry-prod-use1.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
 
-
+Terraform documentation to create auto-scaling groups - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 
 #### Github Actions:
 

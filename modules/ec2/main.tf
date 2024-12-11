@@ -26,7 +26,7 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
-#creating launch template for ec2 auto-scaling group
+#creating launch template for frontend ec2 auto-scaling group
 resource "aws_launch_template" "main" {
   name                   = "${var.name}-${var.env}-lt"
   image_id               = data.aws_ami.rhel9.image_id

@@ -19,7 +19,7 @@ vpc = {
   default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value
 }
 
-#defining values for frontend ec2
+#defining values for ec2
 apps = {
   frontend = {
     subnet_ref    = "web" #frontend servers are being placed in web subnet. refer diagram in readme
@@ -27,6 +27,17 @@ apps = {
     allow_port      = 80
     allow_sg_cidr   = ["10.10.0.0/24", "10.10.1.0/24"] #traffic from public subnets being allowed
     capacity = { #setting desired auto-scaling threshold
+      desired = 1
+      max     = 1
+      min     = 1
+    }
+  }
+  catalogue = {
+    subnet_ref    = "app" #frontend servers are being placed in app subnet. refer diagram in readme
+    instance_type = "t3.small"
+    allow_port    = 8080
+    allow_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24"] #traffic from web subnets being allowed
+    capacity = {
       desired = 1
       max     = 1
       min     = 1

@@ -4,7 +4,7 @@ ansible-pull -i localhost, -U https://github.com/sridevopsb80/roboshop-ansible m
 
 #script to be run while instance is being launched
 #hvac is needed for vault_token
-
+#ansible-pull command referenced from roboshop_ansible wrapper script
 # tee command reads from the standard input and writes to both standard output and one or more files at the same time. we are using it to store output and error (2>&1) logs to /opt/userdata.log as well. -a is used for append.
 # https://linuxize.com/post/linux-tee-command/
 

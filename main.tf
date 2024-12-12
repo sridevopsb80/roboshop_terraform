@@ -17,7 +17,7 @@ module "vpc" {
 
 module "apps" {
   source        = "./modules/ec2"
-  depends_on = [module.db]
+  depends_on = [module.db, module.vpc]
   for_each      = var.apps
   name          = each.key
   instance_type = each.value["instance_type"]
@@ -34,7 +34,7 @@ module "apps" {
 
 module "db" {
   source = "./modules/ec2"
-
+  depends_on = [module.vpc]
   for_each      = var.db
   name          = each.key
   instance_type = each.value["instance_type"]

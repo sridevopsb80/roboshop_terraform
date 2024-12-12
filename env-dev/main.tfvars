@@ -1,8 +1,11 @@
+#terraform apply -var-file=env-dev/main.tfvars -auto-approve
+#github workflow is getting values for pipeline to run from this file
+
 
 env           = "dev"
 bastion_nodes = ["172.31.91.201/32"]
 
-#defining the vpc for dev env. Refer terraform documentation in the readme file.
+#defining values for the vpc for dev env. Refer terraform documentation in the readme file.
 
 vpc = {
   cidr               = "10.10.0.0/16"
@@ -16,8 +19,8 @@ vpc = {
   default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value
 }
 
-#defining frontend ec2 for testing
-ec2 = {
+#defining values for frontend ec2
+apps = {
   frontend = {
     subnet_ref    = "web" #frontend servers are being placed in web subnet. refer diagram in readme
     instance_type = "t3.small"
@@ -28,5 +31,34 @@ ec2 = {
       max     = 1
       min     = 1
     }
+  }
+}
+
+#defining values for ec2 for all db. db is a map var
+
+db = {
+  mongo = {
+    subnet_ref    = "db"
+    instance_type = "t3.small"
+    allow_port    = 27107
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+  }
+  mysql = {
+    subnet_ref    = "db"
+    instance_type = "t3.small"
+    allow_port    = 3306
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+  }
+  rabbitmq = {
+    subnet_ref    = "db"
+    instance_type = "t3.small"
+    allow_port    = 5672
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+  }
+  redis = {
+    subnet_ref    = "db"
+    instance_type = "t3.small"
+    allow_port    = 6379
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
   }
 }

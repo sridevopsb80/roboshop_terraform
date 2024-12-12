@@ -28,12 +28,20 @@ resource "aws_security_group" "allow_tls" {
 
 #creating launch template ec2 auto-scaling group
 #using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#user data is used to run a script while launching an instance. input is base64 encoded
+#user data input is being obtained from userdata.sh
+#copying the userdata info from ec2 resource to launch_template. this is to make sure ec2 in auto scaling groups also run similar to ec2 instances spun separately
 resource "aws_launch_template" "main" {
   count                  = var.asg ? 1 : 0 #if var.asg is set to true, then assign 1, if not 0
   name                   = "${var.name}-${var.env}-lt"
   image_id               = data.aws_ami.rhel9.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
+    user_data = base64encode(templatefile("${path.module}/userdata.sh", {
+      env         = var.env
+      role_name   = var.name
+      vault_token = var.vault_token
+    }))
   tags = {
     Name = "${var.name}-${var.env}-sg"
   }

@@ -32,17 +32,17 @@ module "apps" {
 }
 
 module "db" {
-   source = "./modules/ec2"
+  source = "./modules/ec2"
 
-   for_each      = var.db
-   name          = each.key
-   instance_type = each.value["instance_type"]
-   allow_port    = each.value["allow_port"]
-   allow_sg_cidr = each.value["allow_sg_cidr"]
-   subnet_ids    = module.vpc.subnets[each.value["subnet_ref"]]
-   vpc_id        = module.vpc.vpc_id
-   env           = var.env
-   bastion_nodes = var.bastion_nodes
-   asg           = false #asg value is set to be false. will be passed to child module ec2
-   vault_token   = var.vault_token
-# }
+  for_each      = var.db
+  name          = each.key
+  instance_type = each.value["instance_type"]
+  allow_port    = each.value["allow_port"]
+  allow_sg_cidr = each.value["allow_sg_cidr"]
+  subnet_ids    = module.vpc.subnets[each.value["subnet_ref"]]
+  vpc_id        = module.vpc.vpc_id
+  env           = var.env
+  bastion_nodes = var.bastion_nodes
+  asg = false #asg value is set to be false. will be passed to child module ec2
+  vault_token   = var.vault_token
+}

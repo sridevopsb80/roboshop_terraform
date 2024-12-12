@@ -1,7 +1,6 @@
 #terraform apply -var-file=env-dev/main.tfvars -auto-approve
 #github workflow is getting values for pipeline to run from this file
 
-
 env           = "dev"
 bastion_nodes = ["172.31.91.201/32"]
 

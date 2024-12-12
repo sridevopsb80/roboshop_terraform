@@ -9,3 +9,5 @@ ansible-pull -i localhost, -U https://github.com/sridevopsb80/roboshop-ansible m
 # https://linuxize.com/post/linux-tee-command/
 
 #vault_token is defined in github organizations. https://github.com/organizations/sridevopsb80/settings/secrets/actions. refer learn_github_actions/vault.yml
+
+#check /opt/userdata.log to check logs and to make sure executions are fine

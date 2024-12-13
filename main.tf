@@ -31,6 +31,7 @@ module "apps" {
   capacity      = each.value["capacity"]
   asg           = true #asg value is set to be true. will be passed to child module ec2
   vault_token   = var.vault_token
+  zone_id       = var.zone_id
 }
 
 module "db" {
@@ -48,4 +49,5 @@ module "db" {
   bastion_nodes = var.bastion_nodes
   asg = false #asg value is set to be false. will be passed to child module ec2
   vault_token   = var.vault_token
+  zone_id       = var.zone_id
 }

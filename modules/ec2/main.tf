@@ -26,7 +26,7 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
-#creating launch template ec2 auto-scaling group
+#creating launch template for ec2 auto-scaling group
 #using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
 #user data is used to run a script while launching an instance. input is base64 encoded
 #user data input is being obtained from userdata.sh
@@ -50,12 +50,12 @@ resource "aws_launch_template" "main" {
 #creating ec2 auto-scaling group
 ##using count to create asg. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_autoscaling_group" "main" {
-  count                  = var.asg ? 1 : 0 #if var.asg is set to true, then assign 1, if not 0
+  count               = var.asg ? 1 : 0 #if var.asg is set to true, then assign 1, if not 0
   name                = "${var.name}-${var.env}-asg"
   desired_capacity    = var.capacity["desired"]
   max_size            = var.capacity["max"]
   min_size            = var.capacity["min"]
-  vpc_zone_identifier = var.subnet_ids #subnet info
+  vpc_zone_identifier = var.subnet_ids #list of subnets
   launch_template {
     id      = aws_launch_template.main.*.id[0] #since aws_launch_template.main has "count" set, its attributes must be accessed on specific instances
     version = "$Latest"

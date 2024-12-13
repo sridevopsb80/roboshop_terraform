@@ -18,7 +18,7 @@ vpc = {
   default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value
 }
 
-#defining values for ec2
+#defining values for ec2 
 apps = {
   frontend = {
     subnet_ref    = "web" #frontend servers are being placed in web subnet. refer diagram in readme

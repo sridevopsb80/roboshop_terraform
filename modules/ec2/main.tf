@@ -85,3 +85,14 @@ resource "aws_instance" "main" {
     Name = "${var.name}-${var.env}"
   }
 }
+
+#creating route53_record for instances
+##using count to create asg. if count=0, it will not be created. if count=1, it will be created.
+resource "aws_route53_record" "instance" {
+  count   = var.asg ? 0 : 1 #if var.asg is set to true, then assign value 0, if not 1
+  zone_id = var.zone_id #route53 hosted zone id
+  name    = "${var.name}.${var.env}"
+  type    = "A"
+  ttl     = 10
+  records = [aws_instance.main.*.id[count.index]]
+}

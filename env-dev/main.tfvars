@@ -3,6 +3,7 @@
 
 env           = "dev"
 bastion_nodes = ["172.31.91.201/32"]
+zone_id       = "Z02073473N3J0S3WVZG5G"
 
 #defining values for the vpc for dev env. Refer terraform documentation in the readme file.
 
@@ -18,7 +19,7 @@ vpc = {
   default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value
 }
 
-#defining values for ec2 
+#defining values for ec2
 apps = {
   frontend = {
     subnet_ref    = "web" #frontend servers are being placed in web subnet. refer diagram in readme

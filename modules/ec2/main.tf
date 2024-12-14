@@ -56,6 +56,8 @@ resource "aws_autoscaling_group" "main" {
   max_size            = var.capacity["max"]
   min_size            = var.capacity["min"]
   vpc_zone_identifier = var.subnet_ids #list of subnets
+  target_group_arns   = [aws_lb_target_group.main.*.arn[count.index]] #attaching target group
+  load_balancers      = [aws_lb.main.*.arn[count.index]] #attaching load balancer
   launch_template {
     id      = aws_launch_template.main.*.id[0] #since aws_launch_template.main has "count" set, its attributes must be accessed on specific instances
     version = "$Latest"
@@ -135,4 +137,13 @@ resource "aws_lb" "main" {
   tags = {
     Environment = "${var.name}-${var.env}"
   }
+}
+
+#adding a target group
+resource "aws_lb_target_group" "main" {
+  count    = var.asg ? 1 : 0
+  name     = "${var.name}-${var.env}"
+  port     = var.allow_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
 }

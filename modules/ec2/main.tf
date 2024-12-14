@@ -91,15 +91,16 @@ resource "aws_instance" "main" {
 resource "aws_route53_record" "instance" {
   count   = var.asg ? 0 : 1 #if var.asg is set to true, then assign value 0, if not 1
   zone_id = var.zone_id #route53 hosted zone id
-  name    = "${var.name}.${var.env}"
+  name    = "${var.name}-${var.env}"
   type    = "A"
   ttl     = 10
   records = [aws_instance.main.*.private_ip[count.index]]
 }
 
 #creating security group for load balancer
+#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_security_group" "load-balancer" {
-  count       = var.asg ? 1 : 0
+  count       = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 0, if not 1
   name        = "${var.name}-${var.env}-alb-sg"
   description = "${var.name}-${var.env}-alb-sg"
   vpc_id      = var.vpc_id
@@ -122,14 +123,16 @@ resource "aws_security_group" "load-balancer" {
   }
 }
 
+#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#creating an internal application load balancer
 resource "aws_lb" "main" {
-  count              = var.asg ? 1 : 0
-  name               = "${var.name}.${var.env}"
-  internal           = true
+  count              = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
+  name               = "${var.name}-${var.env}"
+  internal           = true #defining an internal LB
   load_balancer_type = "application"
   security_groups    = [aws_security_group.load-balancer.*.id[count.index]]
   subnets            = var.subnet_ids
   tags = {
-    Environment = "${var.name}.${var.env}"
+    Environment = "${var.name}-${var.env}"
   }
 }

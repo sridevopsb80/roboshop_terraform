@@ -97,6 +97,7 @@ resource "aws_route53_record" "instance" {
   records = [aws_instance.main.*.private_ip[count.index]]
 }
 
+#creating security group for load balancer
 resource "aws_security_group" "load-balancer" {
   count       = var.asg ? 1 : 0
   name        = "${var.name}-${var.env}-alb-sg"

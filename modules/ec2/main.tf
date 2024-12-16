@@ -174,3 +174,14 @@ resource "aws_lb_listener" "front_end" {
     target_group_arn = aws_lb_target_group.main.*.arn[count.index]
   }
 }
+
+#creating a dns record for internal lb
+#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+resource "aws_route53_record" "lb" {
+  count   = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
+  zone_id = var.zone_id
+  name    = "${var.name}.${var.env}"
+  type    = "CNAME" #maps one domain name to another
+  ttl     = 10
+  records = [aws_lb.main.*.dns_name[count.index]] #
+}

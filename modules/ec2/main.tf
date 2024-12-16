@@ -2,6 +2,7 @@ resource "aws_security_group" "allow_tls" {
   name        = "${var.name}-${var.env}-sg"
   description = "${var.name}-${var.env}-sg"
   vpc_id      = var.vpc_id
+  #allowing all outbound traffic
   egress {
     from_port = 0
     to_port   = 0
@@ -9,12 +10,14 @@ resource "aws_security_group" "allow_tls" {
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+  #allowing inbound TCP traffic from bastion nodes
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
     cidr_blocks = var.bastion_nodes
   }
+  #allow inbound TCP traffic on 80 or 8080 port based on ec2 profile - apps or db
   ingress {
     from_port   = var.allow_port
     to_port     = var.allow_port
@@ -88,7 +91,7 @@ resource "aws_instance" "main" {
 }
 
 #creating route53_record for instances
-##using count to create asg. if count=0, it will not be created. if count=1, it will be created.
+##using count to create r53 record. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_route53_record" "instance" {
   count   = var.asg ? 0 : 1 #if var.asg is set to true, then assign value 0, if not 1
   zone_id = var.zone_id #route53 hosted zone id
@@ -99,7 +102,7 @@ resource "aws_route53_record" "instance" {
 }
 
 #creating security group for load balancer
-#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#using count to create security group. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_security_group" "load-balancer" {
   count       = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 0, if not 1
   name        = "${var.name}-${var.env}-alb-sg"
@@ -124,12 +127,12 @@ resource "aws_security_group" "load-balancer" {
   }
 }
 
-#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#using count to create load balancer. if count=0, it will not be created. if count=1, it will be created.
 #creating an internal application load balancer between frontend and catalogue
 resource "aws_lb" "main" {
-  count              = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
+  count              = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 0, if not 1. lb to be created only when asg is being created. using same criteria as we have in asg
   name               = "${var.name}-${var.env}"
-  internal           = true #defining an internal LB
+  internal           = var.internal #using a variable to create lb. true = internal LB. false =public lb
   load_balancer_type = "application"
   security_groups    = [aws_security_group.load-balancer.*.id[count.index]]
   subnets            = var.subnet_ids
@@ -139,22 +142,22 @@ resource "aws_lb" "main" {
 }
 
 #creating target group
-#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#using count to create target group. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_lb_target_group" "main" {
   count    = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
   name     = "${var.name}-${var.env}"
-  port     = var.allow_port
+  port     = var.allow_port #need to open same ports that are to be opened in the ec2 instances
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 }
 
-#creating aws lb listener to attach to the internal LB between frontend and catalogue
-#traffic is being forwarded to a target group by default
-#using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
+#creating aws lb listener to attach target group to the internal LB between frontend and catalogue
+#traffic is being forwarded to a target group by default.
+#using count to create listener. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_lb_listener" "front_end" {
   count             = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
   load_balancer_arn = aws_lb.main.*.arn[count.index]
-  port              = "80"
+  port              = "80" #apps allow 80 port
   protocol          = "HTTP"
   default_action {
     type             = "forward"

@@ -12,3 +12,6 @@ variable "capacity" {
 variable "asg" {}
 variable "vault_token" {}
 variable "zone_id" {}
+variable "internal" {
+  default = null #if there is no value provided, it will be marked as null. defining the default value as null so that db module in main.tf does not expect value for internal.
+}

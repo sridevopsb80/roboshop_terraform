@@ -31,6 +31,7 @@ apps = {
       max     = 1
       min     = 1
     }
+    lb_internal = false
   }
   catalogue = {
     subnet_ref    = "app" #frontend servers are being placed in app subnet. refer diagram in readme
@@ -42,6 +43,7 @@ apps = {
       max     = 1
       min     = 1
     }
+    lb_internal = true
   }
 }
 

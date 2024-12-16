@@ -32,6 +32,7 @@ module "apps" {
   asg           = true #asg value is set to be true. will be passed to child module ec2
   vault_token   = var.vault_token
   zone_id       = var.zone_id
+  internal      = each.value["lb_internal"]
 }
 
 module "db" {

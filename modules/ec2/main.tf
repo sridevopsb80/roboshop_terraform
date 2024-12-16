@@ -135,7 +135,7 @@ resource "aws_lb" "main" {
   internal           = var.internal #using a variable to create lb. true = internal LB. false =public lb
   load_balancer_type = "application"
   security_groups    = [aws_security_group.load-balancer.*.id[count.index]]
-  subnets            = var.subnet_ids
+  subnets            = var.lb_subnet_ids #subnet value is obtained from main.tfvars in env-dev or prod
   tags = {
     Environment = "${var.name}-${var.env}"
   }

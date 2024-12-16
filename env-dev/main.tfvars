@@ -32,6 +32,7 @@ apps = {
       min     = 1
     }
     lb_internal = false
+    lb_subnet_ref = "public" #public subnet
   }
   catalogue = {
     subnet_ref    = "app" #frontend servers are being placed in app subnet. refer diagram in readme
@@ -44,6 +45,7 @@ apps = {
       min     = 1
     }
     lb_internal = true
+    lb_subnet_ref = "app" #app subnet
   }
 }
 

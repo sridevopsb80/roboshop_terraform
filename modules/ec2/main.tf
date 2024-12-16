@@ -120,7 +120,7 @@ resource "aws_security_group" "load-balancer" {
     from_port   = 80
     to_port     = 80
     protocol    = "TCP"
-    cidr_blocks = var.name == "frontend" ? ["0.0.0.0/0"] : var.allow_sg_cidr #if var.name = frontend, 0.0.0.0/0, else, use var.allow_sg_cidr
+    cidr_blocks = var.allow_lb_sg_cidr
   }
   tags = {
     Name = "${var.name}-${var.env}-alb-sg"
@@ -150,6 +150,7 @@ resource "aws_lb_target_group" "main" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
+  #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group#health_check
   health_check {
     enabled             = true
     healthy_threshold   = 2

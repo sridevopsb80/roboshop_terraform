@@ -40,6 +40,8 @@ Terraform documentation to create Load balancer - https://registry.terraform.io/
 
 Terraform documentation to create Target group - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 
+Terraform documentation to create health check for a Target group - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group#health_check
+
 Terraform documentation to create listener - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 
 #### Github Actions:

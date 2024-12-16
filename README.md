@@ -30,6 +30,18 @@ Terraform documentation to create a launch template for EC2 auto-scaling group -
 
 Terraform documentation to create auto-scaling groups - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 
+Terraform documentation to create an instance - 
+
+Terraform documentation to create a Route53 record - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record
+
+Terraform documentation to create security group - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+
+Terraform documentation to create Load balancer - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
+
+Terraform documentation to create Target group - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
+
+Terraform documentation to create listener - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
+
 #### Github Actions:
 
 Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow

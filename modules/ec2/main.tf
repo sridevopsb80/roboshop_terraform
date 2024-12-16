@@ -91,7 +91,7 @@ resource "aws_instance" "main" {
 }
 
 #creating route53_record for instances
-##using count to create r53 record. if count=0, it will not be created. if count=1, it will be created.
+#using count to create r53 record. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_route53_record" "instance" {
   count   = var.asg ? 0 : 1 #if var.asg is set to true, then assign value 0, if not 1
   zone_id = var.zone_id #route53 hosted zone id
@@ -175,7 +175,7 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-#creating a dns record for internal lb
+#creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer internal-catalogue-dev...
 #using count to create launch template. if count=0, it will not be created. if count=1, it will be created.
 resource "aws_route53_record" "lb" {
   count   = var.asg ? 1 : 0 #if var.asg is set to true, then assign value 1, if not 0
@@ -183,5 +183,5 @@ resource "aws_route53_record" "lb" {
   name    = "${var.name}.${var.env}"
   type    = "CNAME" #maps one domain name to another
   ttl     = 10
-  records = [aws_lb.main.*.dns_name[count.index]] #
+  records = [aws_lb.main.*.dns_name[count.index]]
 }

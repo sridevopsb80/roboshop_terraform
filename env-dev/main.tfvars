@@ -31,7 +31,7 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_internal = false
+    lb_internal   = false
     lb_subnet_ref = "public" #public subnet
   }
   catalogue = {
@@ -39,12 +39,12 @@ apps = {
     instance_type = "t3.small"
     allow_port    = 8080
     allow_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24"] #traffic from web subnets being allowed
-    capacity = {
+    capacity  = {
       desired = 1
       max     = 1
       min     = 1
     }
-    lb_internal = true
+    lb_internal   = true
     lb_subnet_ref = "app" #app subnet
   }
 }

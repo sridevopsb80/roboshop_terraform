@@ -162,6 +162,21 @@ resource "aws_lb_listener" "public-https" {
     target_group_arn = aws_lb_target_group.main.arn
   }
 }
+#creating aws lb listener to redirect http traffic to https
+resource "aws_lb_listener" "public-http" {
+  count             = var.internal ? 0 : 1 #if var.internal is false, run this
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
 #creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer internal-catalogue-dev...
 resource "aws_route53_record" "lb" {

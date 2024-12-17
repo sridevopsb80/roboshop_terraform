@@ -40,12 +40,14 @@ resource "aws_launch_template" "main" {
   name                   = "${var.name}-${var.env}-lt"
   image_id               = data.aws_ami.rhel9.image_id
   instance_type          = var.instance_type
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+  vpc_security_group_ids = [aws_security_group.main.id]
+
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     env         = var.env
     role_name   = var.name
     vault_token = var.vault_token
   }))
+
   tags = {
     Name = "${var.name}-${var.env}-sg"
   }
@@ -127,10 +129,27 @@ resource "aws_lb_target_group" "main" {
 
 #creating aws lb listener for http to attach target group to the internal LB between frontend and catalogue
 #traffic is being forwarded to a target group by default.
-resource "aws_lb_listener" "http" {
+resource "aws_lb_listener" "internal-http" {
+  count             = var.internal ? 1 : 0 #if var.internal is true, run this
   load_balancer_arn = aws_lb.main.arn
   port              = "80" #apps allow 80 port
   protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main.arn
+  }
+}
+
+#creating aws lb listener for https to attach target group to the internet facing LB before frontend
+#traffic is being forwarded to a target group by default.
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener#forward-action
+resource "aws_lb_listener" "public-https" {
+  count             = var.internal ? 0 : 1 #if var.internal is false, run this
+  load_balancer_arn = aws_lb.main.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.acm_https_arn
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.main.arn

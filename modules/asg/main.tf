@@ -27,6 +27,13 @@ resource "aws_security_group" "main" {
     protocol    = "TCP"
     cidr_blocks = var.allow_sg_cidr
   }
+  #allow inbound TCP traffic on 443 port.
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "TCP"
+    cidr_blocks = var.allow_lb_sg_cidr
+  }
   tags = {
     Name = "${var.name}-${var.env}-sg"
   }

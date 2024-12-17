@@ -34,6 +34,7 @@ apps = {
     }
     lb_internal   = false
     lb_subnet_ref = "public" #public subnet
+    acm_https_arn = "arn:aws:acm:us-east-1:730335603480:certificate/acabf6ec-3c9e-4949-a9ec-73c29792d1b1" # ACM -> Certificate -> ARN value. value is being provided since lb is internet facing and should use https
   }
   catalogue = {
     subnet_ref       = "app" #catalogue servers are being placed in app subnet. refer diagram in readme
@@ -48,6 +49,7 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app" #app subnet
+    acm_https_arn = null #value not needed for internal communication
   }
 
   cart = {
@@ -63,6 +65,7 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app"
+    acm_https_arn = null #value not needed for internal communication
   }
   user = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -77,6 +80,7 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app"
+    acm_https_arn = null #value not needed for internal communication
   }
   shipping = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -91,6 +95,7 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app"
+    acm_https_arn = null #value not needed for internal communication
   }
   payment = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -105,6 +110,7 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app"
+    acm_https_arn = null #value not needed for internal communication
   }
 }
 

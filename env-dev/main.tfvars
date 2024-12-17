@@ -36,11 +36,11 @@ apps = {
     lb_subnet_ref = "public" #public subnet
   }
   catalogue = {
-    subnet_ref       = "app" #frontend servers are being placed in app subnet. refer diagram in readme
+    subnet_ref       = "app" #catalogue servers are being placed in app subnet. refer diagram in readme
     instance_type    = "t3.small"
     allow_port       = 8080
     allow_sg_cidr    = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
-    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24"] #incoming traffic from web subnet being allowed to the internal lb sitting between frontend and catalogue
+    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed to the internal lb sitting between frontend and catalogue
     capacity  = {
       desired = 1
       max     = 1
@@ -48,6 +48,63 @@ apps = {
     }
     lb_internal   = true
     lb_subnet_ref = "app" #app subnet
+  }
+
+  cart = {
+    subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
+    instance_type    = "t3.small"
+    allow_port       = 8080
+    allow_sg_cidr    = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
+    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed to the internal lb sitting between frontend and catalogue
+    capacity = {
+      desired = 1
+      max     = 1
+      min     = 1
+    }
+    lb_internal   = true
+    lb_subnet_ref = "app"
+  }
+  user = {
+    subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
+    instance_type    = "t3.small"
+    allow_port       = 8080
+    allow_sg_cidr    = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
+    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed to the internal lb sitting between frontend and catalogue
+    capacity = {
+      desired = 1
+      max     = 1
+      min     = 1
+    }
+    lb_internal   = true
+    lb_subnet_ref = "app"
+  }
+  shipping = {
+    subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
+    instance_type    = "t3.small"
+    allow_port       = 8080
+    allow_sg_cidr    = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
+    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed to the internal lb sitting between frontend and catalogue
+    capacity = {
+      desired = 1
+      max     = 1
+      min     = 1
+    }
+    lb_internal   = true
+    lb_subnet_ref = "app"
+  }
+  payment = {
+    subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
+    instance_type    = "t3.small"
+    allow_port       = 8080
+    allow_sg_cidr    = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
+    allow_lb_sg_cidr = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed to the internal lb sitting between frontend and catalogue
+    capacity = {
+      desired = 1
+      max     = 1
+      min     = 1
+    }
+    lb_internal   = true
+    lb_subnet_ref = "app"
   }
 }
 
@@ -58,25 +115,25 @@ db = {
     subnet_ref    = "db"
     instance_type = "t3.small"
     allow_port    = 27017
-    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
   }
   mysql = {
     subnet_ref    = "db"
     instance_type = "t3.small"
     allow_port    = 3306
-    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
   }
   rabbitmq = {
     subnet_ref    = "db"
     instance_type = "t3.small"
     allow_port    = 5672
-    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
   }
   redis = {
     subnet_ref    = "db"
     instance_type = "t3.small"
     allow_port    = 6379
-    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"]
+    allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
   }
 }
 

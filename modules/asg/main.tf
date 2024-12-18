@@ -27,13 +27,6 @@ resource "aws_security_group" "main" {
     protocol    = "TCP"
     cidr_blocks = var.allow_sg_cidr
   }
-  #allow inbound TCP traffic on 443 port.
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "TCP"
-    cidr_blocks = var.allow_lb_sg_cidr
-  }
   tags = {
     Name = "${var.name}-${var.env}-sg"
   }
@@ -97,15 +90,11 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
-
-
-
-
-#creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer internal-catalogue-dev...
-#resource "aws_route53_record" "lb" {
-#  zone_id = var.zone_id
-#  name    = "${var.name}.${var.env}"
-#  type    = "CNAME" #maps one domain name to another
-#  ttl     = 10
-#  records = [aws_lb.main.dns_name]
-#}
+creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer public.dev-...
+resource "aws_route53_record" "lb" {
+  zone_id = var.zone_id
+  name    = "${var.name}.${var.env}"
+  type    = "CNAME" #maps one domain name to another
+  ttl     = 10
+  records = [var.dns_name] #aws_lb.main.dns_name value
+}

@@ -30,10 +30,7 @@ module "apps" {
   asg              = true
   vault_token      = var.vault_token
   zone_id          = var.zone_id
-  internal         = each.value["lb_internal"]
-  lb_subnet_ids    = module.vpc.subnets[each.value["lb_subnet_ref"]]
-  allow_lb_sg_cidr = each.value["allow_lb_sg_cidr"]
-  acm_https_arn    = each.value["acm_https_arn"]
+  dns_name         = module.load-balancers[each.value["lb_ref"]].dns_name
 }
 
 module "db" {

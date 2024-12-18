@@ -15,4 +15,5 @@ variable "zone_id" {}
 variable "lb_subnet_ids" {
   default = []
 }
+variable "dns_name" {}
 

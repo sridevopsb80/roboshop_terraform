@@ -60,8 +60,7 @@ resource "aws_lb_listener" "public-http" {
 }
 
 #creating aws lb listener for https to attach target group to the internet facing LB before frontend
-#traffic is being forwarded to a target group by default.
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener#forward-action
+#by default, a fixed response of 500 will be returned.
 resource "aws_lb_listener" "public-https" {
   count             = var.internal ? 0 : 1 #if var.internal is false, run this
   load_balancer_arn = aws_lb.main.arn
@@ -82,7 +81,7 @@ resource "aws_lb_listener" "public-https" {
 }
 
 #creating aws lb listener for http to attach target group to the internal LB between frontend and catalogue
-#traffic is being forwarded to a target group by default.
+#by default, a fixed response of 500 will be returned.
 resource "aws_lb_listener" "internal-http" {
   count = var.internal ? 1 : 0 #if var.internal is true, run this
   load_balancer_arn = aws_lb.main.arn

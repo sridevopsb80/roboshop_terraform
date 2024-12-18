@@ -150,6 +150,7 @@ load_balancers = {
     load_balancer_type = "application"
     allow_lb_sg_cidr   = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed
     subnet_ref         = "app"
+    acm_https_arn      = null
   }
 
   public = {
@@ -157,5 +158,6 @@ load_balancers = {
      load_balancer_type = "application"
      allow_lb_sg_cidr   = ["0.0.0.0/0"] #internet traffic being allowed
      subnet_ref         = "public"
+     acm_https_arn = "arn:aws:acm:us-east-1:730335603480:certificate/acabf6ec-3c9e-4949-a9ec-73c29792d1b1" # ACM -> Certificate -> ARN value. value is being provided since lb is internet facing and should use https
   }
 }

@@ -143,3 +143,19 @@ db = {
   }
 }
 
+#define value for load balancer module
+load_balancers = {
+  private = {
+    internal           = true
+    load_balancer_type = "application"
+    allow_lb_sg_cidr   = ["10.10.2.0/24", "10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24"] #incoming traffic from web subnet and app subnet being allowed
+    subnet_ref         = "app"
+  }
+
+  public = {
+     internal           = false
+     load_balancer_type = "application"
+     allow_lb_sg_cidr   = ["0.0.0.0/0"] #internet traffic being allowed
+     subnet_ref         = "public"
+  }
+}

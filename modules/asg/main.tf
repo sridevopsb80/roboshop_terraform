@@ -79,43 +79,6 @@ resource "aws_autoscaling_group" "main" {
   }
 }
 
-#creating security group for load balancer
-resource "aws_security_group" "load-balancer" {
-  name        = "${var.name}-${var.env}-alb-sg"
-  description = "${var.name}-${var.env}-alb-sg"
-  vpc_id      = var.vpc_id
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "TCP"
-    cidr_blocks = var.allow_lb_sg_cidr
-  }
-  tags = {
-    Name = "${var.name}-${var.env}-alb-sg"
-  }
-}
-
-
-#creating an internal application load balancer between frontend and catalogue
-resource "aws_lb" "main" {
-  name               = "${var.name}-${var.env}"
-  internal           = var.internal #using a variable to create lb. true = internal LB. false =public lb
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.load-balancer.id]
-  subnets            = var.lb_subnet_ids #subnet value is obtained from main.tfvars in env-dev or prod
-  tags = {
-    Environment = "${var.name}-${var.env}"
-  }
-}
-
 #creating target group
 resource "aws_lb_target_group" "main" {
   name     = "${var.name}-${var.env}"
@@ -134,55 +97,15 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
-#creating aws lb listener for http to attach target group to the internal LB between frontend and catalogue
-#traffic is being forwarded to a target group by default.
-resource "aws_lb_listener" "internal-http" {
-  count             = var.internal ? 1 : 0 #if var.internal is true, run this
-  load_balancer_arn = aws_lb.main.arn
-  port              = "80" #apps allow 80 port
-  protocol          = "HTTP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.main.arn
-  }
-}
 
-#creating aws lb listener for https to attach target group to the internet facing LB before frontend
-#traffic is being forwarded to a target group by default.
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener#forward-action
-resource "aws_lb_listener" "public-https" {
-  count             = var.internal ? 0 : 1 #if var.internal is false, run this
-  load_balancer_arn = aws_lb.main.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.acm_https_arn
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.main.arn
-  }
-}
-#creating aws lb listener to redirect http traffic to https
-resource "aws_lb_listener" "public-http" {
-  count             = var.internal ? 0 : 1 #if var.internal is false, run this
-  load_balancer_arn = aws_lb.main.arn
-  port              = "80"
-  protocol          = "HTTP"
-  default_action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-}
+
+
 
 #creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer internal-catalogue-dev...
-resource "aws_route53_record" "lb" {
-  zone_id = var.zone_id
-  name    = "${var.name}.${var.env}"
-  type    = "CNAME" #maps one domain name to another
-  ttl     = 10
-  records = [aws_lb.main.dns_name]
-}
+#resource "aws_route53_record" "lb" {
+#  zone_id = var.zone_id
+#  name    = "${var.name}.${var.env}"
+#  type    = "CNAME" #maps one domain name to another
+#  ttl     = 10
+#  records = [aws_lb.main.dns_name]
+#}

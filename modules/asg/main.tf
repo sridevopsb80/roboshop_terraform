@@ -90,7 +90,7 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
-creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer public.dev-...
+#creating dns records for apps instances which will be routed via lb. catalogue.dev.sridevopsb80.site will have a cname pointing to the load balancer public.dev-...
 resource "aws_route53_record" "lb" {
   zone_id = var.zone_id
   name    = "${var.name}.${var.env}"

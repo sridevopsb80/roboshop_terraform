@@ -42,6 +42,11 @@ resource "aws_launch_template" "main" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
 
+  #choosing spot instances to reduce cost
+  instance_market_options {
+    market_type = "spot"
+  }
+
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     env         = var.env
     role_name   = var.name

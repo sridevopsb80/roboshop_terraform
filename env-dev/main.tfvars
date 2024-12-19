@@ -32,7 +32,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "public"
+    lb_ref           = "public"
+    lb_rule_priority = 1 #rule priority for public lb
   }
   catalogue = {
     subnet_ref       = "app" #catalogue servers are being placed in app subnet. refer diagram in readme
@@ -45,7 +46,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "private"
+    lb_ref           = "private"
+    lb_rule_priority = 1 #rule priority for private lb
   }
 
   cart = {
@@ -59,7 +61,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "private"
+    lb_ref           = "private"
+    lb_rule_priority = 2 #rule priority for private lb
   }
   user = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -72,7 +75,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "private"
+    lb_ref           = "private"
+    lb_rule_priority = 3 #rule priority for private lb
   }
   shipping = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -85,7 +89,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "private"
+    lb_ref           = "private"
+    lb_rule_priority = 4 #rule priority for private lb
   }
   payment = {
     subnet_ref       = "app" #servers are being placed in app subnet. refer diagram in readme
@@ -98,7 +103,8 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref = "private"
+    lb_ref           = "private"
+    lb_rule_priority = 5 #rule priority for private lb
   }
 }
 

@@ -44,6 +44,8 @@ Terraform documentation to create health check for a Target group - https://regi
 
 Terraform documentation to create listener - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 
+Terraform documentation to create listener rule - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule
+
 #### Github Actions:
 
 Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow

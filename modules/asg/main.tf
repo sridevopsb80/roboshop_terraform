@@ -98,3 +98,18 @@ resource "aws_route53_record" "lb" {
   ttl     = 10
   records = [var.dns_name] #aws_lb.main.dns_name value
 }
+
+#create a listener rule to forward traffic to target group, provided the host header condition is satisfied
+resource "aws_lb_listener_rule" "listener-rule" {
+  listener_arn = var.listener_arn
+  priority     = var.lb_rule_priority
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main.arn
+  }
+  condition {
+    host_header {
+      values = [aws_route53_record.lb.fqdn] #ex:frontend.dev.sridevops.site
+    }
+  }
+}

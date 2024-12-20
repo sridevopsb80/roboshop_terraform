@@ -30,8 +30,6 @@ Terraform documentation to create a launch template for EC2 auto-scaling group -
 
 Terraform documentation to create auto-scaling groups - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 
-Terraform documentation to create an instance - 
-
 Terraform documentation to create a Route53 record - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record
 
 Terraform documentation to create security group - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group

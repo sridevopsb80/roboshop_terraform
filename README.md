@@ -84,6 +84,8 @@ Tomap function is used to convert arguments to map value.
 
 Tee command reads from the standard input and writes to both standard output and one or more files at the same time. We are using it in this project (refer userdata.sh) to store output and error (2>&1) logs to /opt/userdata.log. https://linuxize.com/post/linux-tee-command/
 
+-------------
+
 
 
 

@@ -1,6 +1,6 @@
 #$0-run.sh, $1-dev/prod, $2- apply/destroy
 
-#2 arguments are expected for env and action. if it is not provided
+# 2 arguments are expected for env and action. if it is not provided
 # $# - counts the number of arguments provided. if the cli argument input is not 2, then print the below .
 
 if [ $# -ne 2 ]; then

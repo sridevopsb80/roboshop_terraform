@@ -1,8 +1,8 @@
 #terraform apply -var-file=env-dev/main.tfvars -auto-approve
-#github workflow is getting values for pipeline to run from this file
+#github workflow is getting values for the pipeline to run from this file
 
 env           = "dev"
-bastion_nodes = ["172.31.91.201/32"]
+bastion_nodes = ["172.31.44.168/32"] #IP of the terraform Ec2 machine
 zone_id       = "Z02073473N3J0S3WVZG5G"
 
 #defining values for the vpc for dev env. Refer terraform documentation in the readme file.
@@ -14,9 +14,9 @@ vpc = {
   app_subnets        = ["10.10.4.0/24", "10.10.5.0/24"]
   db_subnets         = ["10.10.6.0/24", "10.10.7.0/24"]
   availability_zones = ["us-east-1a", "us-east-1b"]
-  default_vpc_id     = "vpc-0356e1d486e4ae52b" #fill it with vpc id for default
-  default_vpc_rt     = "rtb-0aa4279d10b72fd93" #fill it with default rt
-  default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value
+  default_vpc_id     = "vpc-0356e1d486e4ae52b" #fill it with vpc id for default. this is the vpc with the cidr 172.31.0.0/16 where the bastion host resides
+  default_vpc_rt     = "rtb-0aa4279d10b72fd93" #fill it with default rt that is associated with the default vpc
+  default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value that is associated with the default vpc
 }
 
 #defining values for ec2
@@ -32,7 +32,7 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref           = "public"
+    lb_ref           = "public" #external facing load-balancer
     lb_rule_priority = 1 #rule priority for public lb
   }
   catalogue = {
@@ -46,7 +46,7 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref           = "private"
+    lb_ref           = "private" #internal load-balancer
     lb_rule_priority = 1 #rule priority for private lb
   }
 
@@ -61,7 +61,7 @@ apps = {
       max     = 1
       min     = 1
     }
-    lb_ref           = "private"
+    lb_ref           = "private" #internal load-balancer
     lb_rule_priority = 2 #rule priority for private lb
   }
   user = {

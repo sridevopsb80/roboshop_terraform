@@ -63,7 +63,6 @@ resource "aws_lb_listener" "public-http" {
 #values for port, protocol and ssl_policy are defined in main.tfvars for dev or prod
 #by default, a fixed response of 500 will be returned.
 resource "aws_lb_listener" "main" {
-  count             = var.internal ? 0 : 1 #if var.internal is false, run this
   load_balancer_arn = aws_lb.main.arn
   port              = var.listener_port
   protocol          = var.listener_protocol

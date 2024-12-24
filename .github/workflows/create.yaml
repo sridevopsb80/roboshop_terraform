@@ -1,6 +1,6 @@
 # Using self-hosted runners in a workflow - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow
 # https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-custom-labels-to-route-jobs
-#https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-labels-and-groups-to-route-jobs
+# https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-labels-and-groups-to-route-jobs
 
 name: Create Roboshop Infrastructure
 on: [workflow_dispatch] #workflow will only run on manual trigger. disabling push runs
@@ -16,7 +16,7 @@ jobs:
 
   DEV-APPLY:
     runs-on: self-hosted #using label to route job
-    environment: dev
+    #environment: dev
     #needs: DEV-PLAN
     steps:
       - uses: actions/checkout@v4 #used to checkout the code

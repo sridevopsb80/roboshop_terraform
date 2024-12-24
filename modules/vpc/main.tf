@@ -1,6 +1,5 @@
 #refer readme file for reference documentation
 
-
 #Defining private VPC for env
 resource "aws_vpc" "main" {
   cidr_block = var.cidr #obtaining cidr info from corresponding env
@@ -9,7 +8,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-## Establishing Peering between private VPC and default VPC
+## Establishing VPC Peering between private VPC and default VPC
 resource "aws_vpc_peering_connection" "main" {
   peer_vpc_id = aws_vpc.main.id #private vpc id
   vpc_id      = var.default_vpc_id #default vpc id
@@ -53,7 +52,7 @@ resource "aws_subnet" "app" {
   }
 }
 resource "aws_subnet" "db" {
-  count = length(var.db_subnets)
+  count             = length(var.db_subnets)
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.db_subnets[count.index]
   availability_zone = var.availability_zones[count.index]

@@ -22,7 +22,7 @@ vpc = {
 
 #defining values for ec2 for all db. db is a map var
 
-# db = {
+ db = {
 #   mongo = {
 #     subnet_ref    = "db"
 #     instance_type = "t3.small"
@@ -47,6 +47,10 @@ vpc = {
 #     allow_port    = 6379
 #     allow_sg_cidr = ["10.10.4.0/24", "10.10.5.0/24"] #app subnets being allowed
 #   }
-# }
+ }
 
 #define value for load balancer module
+
+eks = {
+
+}

@@ -52,6 +52,7 @@ vpc = {
 #define value for eks module. map variable is used. spot instances are being used
 
 eks = {
+  eks_version = "1.30" #defining eks version
   node_groups = {
     main-spot = {
       max_size       = 3
@@ -59,5 +60,10 @@ eks = {
       instance_types = ["t3.medium"]
       capacity_type  = "SPOT"
     }
+  }
+  add_ons = {
+    vpc-cni    = "v1.18.3-eksbuild.2" #to enable pod networking within cluster
+    kube-proxy = "v1.30.3-eksbuild.2"
+    coredns    = "v1.11.1-eksbuild.11"
   }
 }

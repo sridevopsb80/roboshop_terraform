@@ -46,11 +46,11 @@ resource "aws_eks_addon" "addons" {
   addon_version = each.value
 }
 
-#To provide cluster access to terraform workstation machine
-resource "aws_eks_access_policy_association" "workstation-access" {
+#To provide cluster access to terraform build-server
+resource "aws_eks_access_policy_association" "build-server-access" {
   cluster_name  = aws_eks_cluster.main.name
   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" #replace with correct policy arn
-  principal_arn = "arn:aws:iam::730335603480:role/workstation-role" #workstation role info
+  principal_arn = "arn:aws:iam::004058506672:role/build-server-role" # arn role info for build server
   access_scope {
     type       = "cluster"
   }

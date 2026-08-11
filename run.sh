@@ -7,7 +7,7 @@
 
 set -e
 
-echo " Execution command: run.sh <dev or prod> <apply or destroy> "
+# Execution command: run.sh <dev or prod> <apply or destroy> "
 
 if [ $# -ne 2 ]; then
   echo "Use $0 env(dev|prod) action(apply|destroy)"

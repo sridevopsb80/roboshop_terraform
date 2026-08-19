@@ -1,25 +1,27 @@
 # refer reference.md for reference documentation
 
-# Defining private VPC for env
+# Defining private VPC
 resource "aws_vpc" "main" {
-  cidr_block = var.cidr #obtaining cidr info from corresponding env
+  cidr_block = var.cidr # cidr info obtained from env-(env)/main.tfvars
   tags = {
     Name = "${var.env}-vpc"
   }
 }
 
-## Establishing VPC Peering between private VPC and default VPC
+# Establishing VPC Peering between private VPC and default VPC
 resource "aws_vpc_peering_connection" "main" {
-  peer_vpc_id = aws_vpc.main.id #private vpc id
-  vpc_id      = var.default_vpc_id #default vpc id
-  auto_accept = true #to skip manual approval in gui. both VPCs need to be in the same AWS account and region
+  peer_vpc_id = aws_vpc.main.id # private vpc id
+  vpc_id      = var.default_vpc_id # default vpc id
+  auto_accept = true # to skip manual approval in gui. 
+  # both VPCs need to be in the same AWS account and region
 }
 
-# Since RT for default is already created by aws, adding a route in the default VPC route table to connect to private vpc CIDR
+# Since RT for default VPC is already created by aws, 
+# adding a route in the default VPC route table to connect to private vpc CIDR
 resource "aws_route" "default-vpc-peer-route" {
-  route_table_id            = var.default_vpc_rt #route table where entry is being added
-  destination_cidr_block    = var.cidr #subnet info for the private vpc
-  vpc_peering_connection_id = aws_vpc_peering_connection.main.id #vpc peering connection id
+  route_table_id            = var.default_vpc_rt # route table in default vpc where route entry is being added
+  destination_cidr_block    = var.cidr # subnet info for the private vpc
+  vpc_peering_connection_id = aws_vpc_peering_connection.main.id # vpc peering connection id
 }
 
 #Defining Subnets

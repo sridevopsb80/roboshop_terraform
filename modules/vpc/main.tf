@@ -24,7 +24,9 @@ resource "aws_route" "default-vpc-peer-route" {
   vpc_peering_connection_id = aws_vpc_peering_connection.main.id # vpc peering connection id
 }
 
-#Defining Subnets
+# Defining Subnets
+# check reference.md to understand how split function works
+
 resource "aws_subnet" "public" {
   count             = length(var.public_subnets)
   vpc_id            = aws_vpc.main.id

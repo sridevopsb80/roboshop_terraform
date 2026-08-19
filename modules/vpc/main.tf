@@ -1,6 +1,6 @@
-#refer readme file for reference documentation
+# refer reference.md for reference documentation
 
-#Defining private VPC for env
+# Defining private VPC for env
 resource "aws_vpc" "main" {
   cidr_block = var.cidr #obtaining cidr info from corresponding env
   tags = {

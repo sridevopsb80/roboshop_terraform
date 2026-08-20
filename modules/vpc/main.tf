@@ -95,7 +95,7 @@ resource "aws_route_table" "web" {
   #defining routing for nat gateway
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.*.id[count.index] #using splat expression
+    nat_gateway_id = aws_nat_gateway.main.*.id[count.index] # using splat expression
   }
 
   # adding a route to default vpc

@@ -1,11 +1,11 @@
-#module used to provision ec2
+# module used to provision ec2
 
-#security group to allow app related ports
+# security group to allow app related ports
 resource "aws_security_group" "main" {
   name        = "${var.name}-${var.env}-sg"
   description = "${var.name}-${var.env}-sg"
   vpc_id      = var.vpc_id
-  #allowing all outbound traffic
+  # allow all outbound traffic
   egress {
     from_port = 0
     to_port   = 0
@@ -13,14 +13,14 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-  #allowing inbound TCP traffic from bastion nodes
+  # allow inbound TCP traffic from bastion node(build server)
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
     cidr_blocks = var.bastion_nodes
   }
-  #allow inbound TCP traffic on 80 or 8080 port based on ec2 profile - apps or db
+  # allow inbound TCP traffic on 80 or 8080 port based on ec2 profile - apps or db
   ingress {
     from_port   = var.allow_port
     to_port     = var.allow_port
@@ -32,8 +32,9 @@ resource "aws_security_group" "main" {
   }
 }
 
-#user data is used to run a script while launching an instance. input is base64 encoded
-#user data input is being obtained from userdata.sh
+# user data is used to run a script while launching an instance. 
+# input is base64 encoded
+# user data input is being obtained from userdata.sh
 resource "aws_instance" "main" {
   ami                    = data.aws_ami.rhel9.image_id
   instance_type          = var.instance_type

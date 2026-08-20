@@ -1,11 +1,11 @@
-#module used to provision asg with ec2s
+# module used to provision asg with ec2s
 
-#security group to allow app related ports
+# security group to allow app related ports
 resource "aws_security_group" "main" {
   name        = "${var.name}-${var.env}-sg"
   description = "${var.name}-${var.env}-sg"
   vpc_id      = var.vpc_id
-  #allowing all outbound traffic
+  # allow all outbound traffic
   egress {
     from_port = 0
     to_port   = 0
@@ -13,14 +13,14 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-  #allowing inbound TCP traffic from bastion nodes
+  # allow inbound SSH traffic from bastion node
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
     cidr_blocks = var.bastion_nodes
   }
-  #allow inbound TCP traffic on 80 or 8080 port based on ec2 profile - apps or db
+  # allow inbound TCP traffic on 80 or 8080 port based on ec2 profile - apps or db
   ingress {
     from_port   = var.allow_port
     to_port     = var.allow_port
@@ -32,17 +32,18 @@ resource "aws_security_group" "main" {
   }
 }
 
-#creating launch template for ec2 auto-scaling group
-#user data is used to run a script while launching an instance. input is base64 encoded
-#user data input is being obtained from userdata.sh
-#copying the userdata info from ec2 resource to launch_template. this is to make sure ec2 in auto scaling groups also run similar to ec2 instances spun separately
+# create launch template for ec2 auto-scaling group
+# user data is used to run a script while launching an instance. input is base64 encoded
+# user data input is being obtained from userdata.sh
+# copying the userdata info from ec2 resource to launch_template. 
+# this is to make sure ec2 in auto scaling groups also run similar to ec2 instances spun separately
 resource "aws_launch_template" "main" {
   name                   = "${var.name}-${var.env}-lt"
   image_id               = data.aws_ami.rhel9.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
 
-  #choosing spot instances to reduce cost
+  # using spot instances to reduce cost
   instance_market_options {
     market_type = "spot"
   }
@@ -64,7 +65,7 @@ resource "aws_launch_template" "main" {
   }
 }
 
-#creating ec2 auto-scaling group
+# creating ec2 auto-scaling group
 resource "aws_autoscaling_group" "main" {
   name                = "${var.name}-${var.env}-asg"
   desired_capacity    = var.capacity["desired"]

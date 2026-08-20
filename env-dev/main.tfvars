@@ -1,8 +1,8 @@
-#terraform apply -var-file=env-dev/main.tfvars -auto-approve
-#github workflow is getting values for the pipeline to run from this file
+# terraform apply -var-file=env-dev/main.tfvars -auto-approve
+# github workflow is getting values for the pipeline to run from this file
 
 env           = "dev"
-bastion_nodes = ["172.31.44.168/32"] #IP of the terraform Ec2 machine
+bastion_nodes = ["172.31.44.168/32"] # IP of the terraform Ec2 machine
 zone_id       = "Z09235141SU2IO4ICUFVB"
 
 #defining values for the vpc for dev env. Refer terraform documentation in the readme file.
@@ -14,9 +14,13 @@ vpc = {
   app_subnets        = ["10.10.4.0/24", "10.10.5.0/24"]
   db_subnets         = ["10.10.6.0/24", "10.10.7.0/24"]
   availability_zones = ["us-east-1a", "us-east-1b"]
-  default_vpc_id     = "vpc-0356e1d486e4ae52b" #fill it with vpc id for default. this is the vpc with the cidr 172.31.0.0/16 where the bastion host resides
-  default_vpc_rt     = "rtb-0aa4279d10b72fd93" #fill it with default rt that is associated with the default vpc
-  default_vpc_cidr   = "172.31.0.0/16" #fill it with IPv4 CIDR value that is associated with the default vpc
+  default_vpc_id     = "vpc-0356e1d486e4ae52b" 
+  # fill it with aws default vpc id. 
+  # this is the vpc with the cidr 172.31.0.0/16 where the bastion host resides
+  default_vpc_rt     = "rtb-0aa4279d10b72fd93" 
+  # fill it with default rt that is associated with the default vpc
+  default_vpc_cidr   = "172.31.0.0/16" 
+  # fill it with IPv4 CIDR value that is associated with the default vpc
 }
 
 

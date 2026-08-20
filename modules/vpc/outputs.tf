@@ -15,7 +15,7 @@ output "db_subnet_ids" {
   value = aws_subnet.db.*.id
 }
 
-#using tomap function to convert arguments to map value
+# using tomap function to convert arguments to map value
 output "subnets" {
   value = tomap({
     "web"    = aws_subnet.web.*.id

@@ -5,7 +5,8 @@ env           = "dev"
 bastion_nodes = ["172.31.44.168/32"] # IP of the terraform Ec2 machine
 zone_id       = "Z09235141SU2IO4ICUFVB"
 
-#defining values for the vpc for dev env. Refer terraform documentation in the readme file.
+# defining values for the vpc for dev env. 
+# Refer terraform documentation in the reference.md file.
 
 vpc = {
   cidr               = "10.10.0.0/16"
@@ -15,7 +16,7 @@ vpc = {
   db_subnets         = ["10.10.6.0/24", "10.10.7.0/24"]
   availability_zones = ["us-east-1a", "us-east-1b"]
   default_vpc_id     = "vpc-0356e1d486e4ae52b" 
-  # fill it with aws default vpc id. 
+  # fill it with aws default vpc id 
   # this is the vpc with the cidr 172.31.0.0/16 where the bastion host resides
   default_vpc_rt     = "rtb-0aa4279d10b72fd93" 
   # fill it with default rt that is associated with the default vpc
@@ -24,9 +25,9 @@ vpc = {
 }
 
 
-#defining values for ec2 for all db. db is a map var
+# defining values for ec2 for all db. db is a map var
 
- db = {
+# db = {
 #   mongo = {
 #     subnet_ref    = "db"
 #     instance_type = "t3.small"
